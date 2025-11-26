@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+.recharts-wrapper:focus,
+.recharts-pie-sector:focus,
+.recharts-surface:focus {
+  outline: none !important;
+}
+
+
+/* {step === 4 && (
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      setStep(5);
+    }}
+    className="flex flex-col gap-4"
+  >
+    <div className="max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+      {experience.map((exp, index) => (
+        <div
+          key={index}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 border p-4 rounded-lg bg-purple-50"
+        >
+          <input
+            type="text"
+            name="companyName"
+            value={exp.companyName}
+            onChange={(e) => handleExperienceChange(e, index)}
+            placeholder="Company Name *"
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+            required
+          />
+          <input
+            type="text"
+            name="designation"
+            value={exp.designation}
+            onChange={(e) => handleExperienceChange(e, index)}
+            placeholder="Designation *"
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+            required
+          />
+          <input
+            type="date"
+            name="from"
+            value={exp.from}
+            onChange={(e) => handleExperienceChange(e, index)}
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+            required
+          />
+          <input
+            type="date"
+            name="to"
+            value={exp.to}
+            onChange={(e) => handleExperienceChange(e, index)}
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+            required
+          />
+          {experience.length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeExperience(index)}
+              className="col-span-1 sm:col-span-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <div className="flex justify-between mt-2">
+      <button
+        type="button"
+        onClick={() => setStep(3)}
+        className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"
+      >
+        Back
+      </button>
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={addExperience}
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+        >
+          + Add More
+        </button>
+        <button
+          type="submit"
+          className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </form>
+)} */
