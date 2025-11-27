@@ -103,7 +103,7 @@ const dispatch = useDispatch();
             <>
               <div className="flex items-center gap-4">
                 <img
-                  src={`http://localhost:5000/uploads/${employeeData?.documents?.profileImage}`}
+                  src={`https://hrms-api.tipsg.in/uploads/${employeeData?.documents?.profileImage}`}
                   alt={employeeData?.fullName || "Profile"}
                   className="w-14 h-14 rounded-full"
                 />

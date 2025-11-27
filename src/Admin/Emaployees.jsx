@@ -12,7 +12,7 @@ const Employees = () => {
 
 
   const fectchData = () =>{ 
-     fetch("http://localhost:5000/employee")
+     fetch("https://hrms-api.tipsg.in/employee")
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data.data);
@@ -74,7 +74,7 @@ const Employees = () => {
            <img
               src={
                emp?.documents?.profileImage
-               ? `http://localhost:5000/uploads/${emp.documents.profileImage}`
+               ? `https://hrms-api.tipsg.in/uploads/${emp.documents.profileImage}`
                : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrmvSoqEMvs4E-TIgyfMdztZYEdKav-zok1A&s'
                }
               alt={emp.fullName}

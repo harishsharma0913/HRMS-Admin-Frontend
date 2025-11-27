@@ -22,7 +22,7 @@ export default function TicketDetailsModal({ ticket, onClose }) {
 
   const handleDownload = async (fileName) => {
     try {
-      const response = await fetch(`http://localhost:5000/uploads/${encodeURIComponent(fileName)}`);
+      const response = await fetch(`https://hrms-api.tipsg.in/uploads/${encodeURIComponent(fileName)}`);
       if (!response.ok) return alert("File not found or not uploaded");
 
       const blob = await response.blob();
@@ -99,7 +99,7 @@ export default function TicketDetailsModal({ ticket, onClose }) {
 
           <div className="flex items-center gap-3">
             <img
-              src={`http://localhost:5000/uploads/${ticket.employee.documents.profileImage}`}
+              src={`https://hrms-api.tipsg.in/uploads/${ticket.employee.documents.profileImage}`}
               alt={ticket.employee.fullName || "Profile"}
               className="w-12 h-12 rounded-full object-cover border border-gray-300"
             />

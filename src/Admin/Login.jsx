@@ -13,15 +13,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/admin', {
+      const res = await fetch('https://hrms-api.tipsg.in/admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
+      
 
       const data = await res.json();
       setMessage(data.message);
-
+      console.log(data);
+      
       if (data.status === true) {
         localStorage.setItem('adminToken', data.token);
         navigate('/home');

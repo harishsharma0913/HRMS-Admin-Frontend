@@ -152,7 +152,7 @@ const handleFinalSubmit = async (e) => {
    
 
     // Submit to API
-    const response = await fetch("http://localhost:5000/employee", {
+    const response = await fetch("https://hrms-api.tipsg.in/employee", {
       method: "POST",
       body: form,
     });
@@ -182,7 +182,7 @@ const handleFinalSubmit = async (e) => {
   ];
 
 useEffect(() => {
-  fetch("http://localhost:5000/department")
+  fetch("https://hrms-api.tipsg.in/department")
     .then((res) => {
       if (!res.ok) {
         throw new Error("Failed to fetch departments");
@@ -202,7 +202,7 @@ useEffect(() => {
 useEffect(() => {
   if (!others.department) return;
 
-  fetch(`http://localhost:5000/designation?department_id=${others.department}`)
+  fetch(`https://hrms-api.tipsg.in/designation?department_id=${others.department}`)
     .then((res) => {
       if (!res.ok) {
         throw new Error("Failed to fetch designations");
