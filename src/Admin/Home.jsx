@@ -71,52 +71,90 @@ export default function Home() {
         </div>
       </div>
       <div className="p-6  bg-pink-50">
-      <div className="w-full rounded-xl">
+      <div className="w-full mb-4 bg-white p-6 rounded-2xl shadow-md">
+        {/* Top Row: Input + Buttons */}
+        {/* Top Row: Input + Buttons */}
+<div className="w-full mb-3">
 
-      {/* Filter Buttons */}
-     <div className="flex flex-wrap justify-between items-center mb-2">
+  {/* FOR WEB (md and above) – exactly same as your design */}
+  <div className="hidden md:flex justify-between items-center gap-4">
+    <input
+      type="text"
+      placeholder="search by employee..."
+      className="px-4 py-2 w-full bg-gray-100 rounded-lg border border-gray-300 focus:outline-none"
+      onChange={(e) => setSearchEmployee(e.target.value)}
+    />
 
-  {/* Heading Left */}
-  <h2 className="text-2xl font-semibold mb-1">Date Filter</h2>
-
-  {/* Buttons Right */}
-  <div className="flex flex-wrap gap-3">
-    {filters.map((item) => (
-      <button
-        key={item}
-        onClick={() => setActive(item)}
-        className={`px-4 py-2 border bg-gray-300 rounded-lg transition
-          ${
-            active === item
-              ? "bg-blue-600 text-white border-blue-600"
-              : "bg-gray-100 border-gray-300 hover:bg-gray-400"
-          }`}
-      >
-        {item}
-      </button>
-    ))}
+    <div className="flex gap-3 shrink-0">
+      {filters.map((item) => (
+        <button
+          key={item}
+          onClick={() => setActive(item)}
+          className={`px-4 py-2 rounded-lg border transition
+            ${
+              active === item
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-gray-100 text-gray-600 border-gray-300 hover:bg-gray-200"
+            }`}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
   </div>
 
-     </div>
+  {/* FOR MOBILE (below md) */}
+  <div className="flex flex-col gap-3 md:hidden">
 
-      {/* Date Inputs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label className="font-semibold block mb-1">From Date</label>
-          <input
-            type="date"
-            className="w-full px-3 py-3 bg-gray-300 rounded-lg focus:outline-none"
-          />
-        </div>
+    {/* Input on top */}
+    <input
+      type="text"
+      placeholder="search by employee..."
+      className="px-4 py-2 w-full bg-gray-100 rounded-lg border border-gray-300 focus:outline-none"
+      onChange={(e) => setSearchEmployee(e.target.value)}
+    />
 
-        <div>
-          <label className="font-semibold block mb-1">To Date</label>
-          <input
-            type="date"
-            className="w-full px-3 py-3 bg-gray-300 rounded-lg focus:outline-none"
-          />
+    {/* Buttons in one line */}
+    <div className="grid grid-cols-3 gap-3">
+      {filters.map((item) => (
+        <button
+          key={item}
+          onClick={() => setActive(item)}
+          className={`px-2 py-2 rounded-lg border text-sm transition
+            ${
+              active === item
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-gray-100 text-gray-600 border-gray-300 hover:bg-gray-200"
+            }`}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+
+  </div>
+
+</div>
+
+
+        {/* Date Inputs */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label className="font-medium block mb-2">From Date</label>
+            <input
+              type="date"
+              className="w-full px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="font-medium block mb-2">To Date</label>
+            <input
+              type="date"
+              className="w-full px-4 py-2 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none"
+            />
+          </div>
         </div>
-      </div>
       </div>
 
       <div className=" text-gray-800">
@@ -125,7 +163,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
 
           {/* Total Applications (Dynamic) */}
-           <div className="bg-blue-200 p-5 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-102 hover:shadow-2xl animate-fade-in cursor-pointer">
+           <div className="bg-blue-100 p-5 rounded-2xl shadow-lg cursor-pointer">
       <h4 className=" font-bold mb-1">Total Applications</h4>
       <p className="text-4xl font-bold text-blue-500 mb-4">{totalLeaves}</p>
       <div className="w-full h-28 flex items-end space-x-2">
@@ -141,7 +179,7 @@ export default function Home() {
     </div>
 
           {/* Pending Review */}
-            <div className="bg-teal-200 p-5 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-102 hover:shadow-2xl animate-fade-in cursor-pointer">
+            <div className="bg-teal-100 p-5 rounded-2xl shadow-lg cursor-pointer">
       <h4 className="font-bold mb-1">Pending Review</h4>
       <p className="text-4xl font-bold text-teal-500 mb-4">18</p>
       <div className="w-full h-28 flex items-end space-x-2">
@@ -158,7 +196,7 @@ export default function Home() {
 
 
           {/* Approval Rate */}
-            <div className="bg-purple-200 p-5 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-102 hover:shadow-2xl animate-fade-in cursor-pointer">
+            <div className="bg-purple-100 p-5 rounded-2xl shadow-lg cursor-pointer">
       <h4 className=" font-bold mb-1">Approval Rate</h4>
       <p className="text-4xl font-bold text-purple-500 mb-4">85%</p>
       <div className="w-full h-28 flex items-end space-x-2">
@@ -174,7 +212,7 @@ export default function Home() {
     </div>
 
           {/* Avg Rejected */}
-              <div className="bg-red-200 p-5 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-102 hover:shadow-2xl animate-fade-in cursor-pointer">
+              <div className="bg-red-200 p-5 rounded-2xl shadow-lg cursor-pointer">
       <h4 className=" font-bold mb-1">Avg Rejected</h4>
       <p className="text-4xl font-bold text-red-500 mb-4">2.1</p>
       <div className="w-full h-28 flex items-end space-x-2">
@@ -192,24 +230,32 @@ export default function Home() {
         </div>
 
         {/* ====================== Employee Leave Balance ====================== */}
-        <div className="bg-gray-100 p-6 rounded-2xl border-amber-200 shadow-sm">
-          <h3 className="text-base font-semibold text-gray-800 mb-5">
+        <div className="bg-white p-6 rounded-2xl shadow-md">
+          {/* Heading */}
+          <h3 className="text-lg font-semibold text-gray-800 mb-6">
             Employee Leave Balance - Priya Sharma
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+
             {/* Annual Leave */}
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-gray-700 font-medium">Annual Leave</span>
-                <span className="text-sm text-gray-600">8/24</span>
+                <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
+                  8/24
+                </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-[6px] mb-1">
+
+              {/* Progress bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div
-                  className="bg-gray-800 h-[6px] rounded-full"
+                  className="bg-blue-600 h-2 rounded-full"
                   style={{ width: "33%" }}
                 ></div>
               </div>
+
               <p className="text-sm text-gray-500">16 days remaining</p>
             </div>
 
@@ -217,14 +263,19 @@ export default function Home() {
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-gray-700 font-medium">Sick Leave</span>
-                <span className="text-sm text-gray-600">2/10</span>
+                <span className="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-semibold">
+                  2/10
+                </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-[6px] mb-1">
+
+              {/* Progress bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div
-                  className="bg-gray-800 h-[6px] rounded-full"
+                  className="bg-purple-600 h-2 rounded-full"
                   style={{ width: "20%" }}
                 ></div>
               </div>
+
               <p className="text-sm text-gray-500">8 days remaining</p>
             </div>
 
@@ -232,18 +283,25 @@ export default function Home() {
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-gray-700 font-medium">Casual Leave</span>
-                <span className="text-sm text-gray-600">5/12</span>
+                <span className="text-xs bg-gray-200 text-gray-800 px-3 py-1 rounded-full font-semibold">
+                  5/12
+                </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-[6px] mb-1">
+
+              {/* Progress bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div
-                  className="bg-gray-800 h-[6px] rounded-full"
+                  className="bg-gray-800 h-2 rounded-full"
                   style={{ width: "42%" }}
                 ></div>
               </div>
+
               <p className="text-sm text-gray-500">7 days remaining</p>
             </div>
+
           </div>
         </div>
+
       </div>
 
       <TicketDashboard />
