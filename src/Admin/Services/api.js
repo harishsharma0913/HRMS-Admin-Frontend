@@ -1,4 +1,4 @@
-const BASE_URL = "https://hrms-api.tipsg.in/";
+const BASE_URL = "https://hrms-api.tipsg.in";
 
 // 🔐 Get token directly from localStorage
 const getToken = () => {
