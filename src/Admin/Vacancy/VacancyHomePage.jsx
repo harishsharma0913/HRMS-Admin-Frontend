@@ -69,7 +69,7 @@ export default function VacancyHomePage() {
         {/* Add New Job */}
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-3xl font-bold">Posted Jobs</h1>
-          <div className="flex flex-col md:flex-row gap-3">
+          <div className="flex flex-row gap-1 md:gap-3">
             <button
             onClick={() => setOpen(true)}
             className="bg-blue-600 text-white px-3 font-semibold rounded-xl mb-2 hover:bg-blue-800 flex items-center gap-2"
@@ -80,7 +80,7 @@ export default function VacancyHomePage() {
             onClick={() => setShowFilters(!showFilters)}
             className="bg-blue-600 text-white px-3 font-semibold rounded-xl mb-2 hover:bg-blue-800 flex items-center gap-2"
           >
-            {showFilters ? "Hide Filters ▲" : "Filters ▼"}
+            {showFilters ? "Filters ▲" : "Filters ▼"}
           </button>
           </div>
         </div>

@@ -79,7 +79,7 @@ const handleDeleteEmployee = async () => {
     <div className="min-h-screen px-6 py-12 bg-gradient-to-br from-purple-100 via-pink-50 to-blue-50 flex justify-center">
       <div className="max-w-4xl w-full bg-white shadow-2xl rounded-3xl p-10 animate-fade-in-down">
         {/* Header */}
-<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+<div className="flex flex-col md:flex-row items-center md:items-center justify-center md:justify-between gap-6 mb-6">
   {/* Left: Profile Image and Info */}
   <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
     <div className="flex-shrink-0">
@@ -103,7 +103,7 @@ const handleDeleteEmployee = async () => {
   </div>
 
    {/* Right: Buttons */}
-   <div className="flex flex-col items-end gap-2">
+   <div className="flex flex-col items-center md:items-end gap-2">
   <button
     onClick={handleUpdateEmployee}
     className="px-4 py-2 text-sm rounded-md bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold shadow hover:shadow-md hover:scale-105 active:scale-95 transition"

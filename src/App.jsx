@@ -12,6 +12,7 @@ import TicketManagement from "./Admin/Ticket/TicketManagement"
 import VacancyHomePage from "./Admin/Vacancy/VacancyHomePage"
 import Responses from "./Admin/Vacancy/Responses"
 import OrganizationManagement from "./Admin/Department/OrganizationManagement"
+import TaskHomePage from "./Admin/Tasks/TaskHomePage"
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
         <Route path="/ticket" element={<TicketManagement />} />
         <Route path="/vacancy" element={<VacancyHomePage />}/>
         <Route path="/vacancy/response" element={<Responses />} />
+        <Route path="/task" element={<TaskHomePage/>} />
         <Route path="/setting" element={<Setting/>} />
         </Route>
      </Routes>

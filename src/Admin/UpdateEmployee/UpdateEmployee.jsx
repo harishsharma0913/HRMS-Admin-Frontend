@@ -199,7 +199,7 @@ const handleImageUpload = async () => {
  
      </div>
 
-    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
 
       {/* Full Name */}
       <div>
@@ -264,7 +264,7 @@ const handleImageUpload = async () => {
       </div>
 
       {/* Address */}
-      <div className="md:col-span-2">
+      <div className="col-span-2 md:col-span-2">
         <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Address:</label>
         <textarea id="address" name="address" value={formData.address} onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />

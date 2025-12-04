@@ -3,6 +3,7 @@ import { IoMenu, IoClose, IoHome, IoPeople, IoSettings, IoLogOut } from "react-i
 import { FaUserPlus } from "react-icons/fa";
 import { FaCalendar, FaTicket } from "react-icons/fa6";
 import { RiBuilding2Fill } from "react-icons/ri";
+import { MdTask } from "react-icons/md";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useToast } from "../Toast/ToastProvider";
 
@@ -121,6 +122,17 @@ const Sidebar = () => {
 >
   <FaUserPlus /> Posted Jobs
 </NavLink>
+
+<NavLink
+  to="/task"
+  className={({ isActive }) =>
+    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition
+    ${isActive ? "bg-purple-100 text-purple-800" : "hover:bg-purple-100"}`
+  }
+>
+  <MdTask /> Task
+</NavLink>
+
 <NavLink
   to="/setting"
   className={({ isActive }) =>
