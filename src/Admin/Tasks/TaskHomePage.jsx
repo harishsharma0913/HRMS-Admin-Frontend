@@ -7,7 +7,7 @@ export default function TaskHomePage() {
     const[open, setOpen]=useState(false);
   
   const dispatch = useDispatch();
-  const { tasks, allTasks, loading, totalPages } = useSelector((state) => state.tasks);
+  const { tasks, allTasks, loading, totalPages } = useSelector((state) => state.tasks);  
   
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -41,7 +41,10 @@ export default function TaskHomePage() {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       dispatch(deleteTask(id))
-        .then(() => dispatch(getTasks({}))); // 🔄 refresh list
+        .then(() => {
+           dispatch(getTasks({ page, limit: 5 }));
+           dispatch(getAllTasks());
+    }); 
     }
   };
 
@@ -97,6 +100,7 @@ const getStatusClasses = (status) => {
       </div>
 
     <div className="w-full bg-pink-50 h-full p-6 space-y-6">
+      
       {/* Top Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
@@ -245,36 +249,35 @@ const getStatusClasses = (status) => {
       </div>
       ))}
       {/* Pagination */}
-{!loading && tasks.length > 0 && (
-  <div className="flex justify-center items-center gap-3 py-6">
+      {!loading && tasks.length > 0 && (
+        <div className="flex justify-center items-center gap-3 py-6">
 
-    <button
-      disabled={page === 1}
-      onClick={() => setPage((p) => p - 1)}
-      className={`px-4 py-2 rounded-md border border-gray-300 ${
-        page === 1 ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-100"
-      }`}
-    >
-      Prev
-    </button>
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+            className={`px-4 py-2 rounded-md border border-gray-300 ${
+              page === 1 ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-100"
+            }`}
+          >
+            Prev
+          </button>
 
-    <span className="font-semibold">
-      Page {page} of {totalPages || 1}
-    </span>
+          <span className="font-semibold">
+            Page {page} of {totalPages || 1}
+          </span>
 
-    <button
-      disabled={page === totalPages}
-      onClick={() => setPage((p) => p + 1)}
-      className={`px-4 py-2 rounded-md border border-gray-300 ${
-        page === totalPages ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-100"
-      }`}
-    >
-      Next
-    </button>
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => p + 1)}
+            className={`px-4 py-2 rounded-md border border-gray-300 ${
+              page === totalPages ? "bg-gray-200 cursor-not-allowed" : "bg-white hover:bg-gray-100"
+            }`}
+          >
+            Next
+          </button>
 
-  </div>
-)}
-
+        </div>
+      )}
     </div>
     {open && <AddTaskPage open={open} onClose={onClose} />}
     </div>

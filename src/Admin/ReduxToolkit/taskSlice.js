@@ -48,7 +48,8 @@ export const getAllTasks = createAsyncThunk(
       if (!response.status) {
         return rejectWithValue(response.message || "Failed to fetch all tasks");
       }
-
+      console.log(response);
+      
       return response.tasks;
     } catch (error) {
       return rejectWithValue(error.message || "Something went wrong");
