@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UpdateEmployee from "../UpdateEmployee/UpdateEmployee";
 import PasswordModal from "../PasswordUpdate/PasswordUpdate";
+import { useToast } from "../Toast/ToastProvider";
 
 const SingleEmployee = () => {
   const { id } = useParams();
@@ -9,7 +10,12 @@ const SingleEmployee = () => {
   const [loading, setLoading] = useState(true);
   const [showUpdate, setShowUpdate] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadKey, setUploadKey] = useState("");
+  const [uploading, setUploading] = useState(false);
+
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
    const fetchEmployee = async () => {
       try {
@@ -29,6 +35,51 @@ const SingleEmployee = () => {
   useEffect(() => {
     fetchEmployee();
   }, [id]);
+
+  const handleFileChange = (e, key) => {
+  setSelectedFile(e.target.files[0]);
+  setUploadKey(key);
+  };
+
+  const handleFinalSubmit = async () => {
+    if (!selectedFile || !uploadKey) {
+      showToast("Please select file", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("key", uploadKey);
+
+    try {
+      setUploading(true);
+
+      const res = await fetch(
+        `https://hrms-api.tipsg.in/upload-document/${id}`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
+
+      const result = await res.json();
+
+      if (res.ok) {
+        showToast("Document uploaded successfully", "success");
+        setSelectedFile(null);
+        setUploadKey("");
+        fetchEmployee(); // 🔥 refresh data
+      } else {
+        showToast(result.message || "Upload failed", "error");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("Server error", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
 
   if (loading) {
     return (
@@ -199,8 +250,33 @@ const handleDeleteEmployee = async () => {
           View
         </a>
       ) : (
-        <span className="text-gray-500">Not uploaded</span>
-      )}
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+             onChange={(e) => handleFileChange(e, "aadhar")}          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
+        )}
     </li>
 
     {/* PAN */}
@@ -215,7 +291,33 @@ const handleDeleteEmployee = async () => {
           View
         </a>
       ) : (
-        <span className="text-gray-500">Not uploaded</span>
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+            onChange={(e) => handleFileChange(e, "pan")}
+          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
       )}
     </li>
 
@@ -233,7 +335,33 @@ const handleDeleteEmployee = async () => {
             View
           </a>
         ) : (
-          <span className="text-gray-500">Not uploaded</span>
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+            onChange={(e) => handleFileChange(e, "marksheets.ten")}
+          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
         )}
       </li>
       <li>
@@ -247,7 +375,33 @@ const handleDeleteEmployee = async () => {
             View
           </a>
         ) : (
-          <span className="text-gray-500">Not uploaded</span>
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+              onChange={(e) => handleFileChange(e, "marksheets.twel")}
+          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
         )}
       </li>
     </ul>
@@ -265,7 +419,33 @@ const handleDeleteEmployee = async () => {
             View
           </a>
         ) : (
-          <span className="text-gray-500">Not uploaded</span>
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+            onChange={(e) => handleFileChange(e, "marksheets.ug")}
+          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
         )}
       </li>
       <li>
@@ -279,7 +459,33 @@ const handleDeleteEmployee = async () => {
             View
           </a>
         ) : (
-          <span className="text-gray-500">Not uploaded</span>
+        <div className="flex items-center gap-3 mt-2">
+          {/* File Input */}
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            className="block bg-white rounded-sm text-sm text-gray-600
+              file:m-1 file:px-2 
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-purple-100 file:text-purple-700
+              hover:file:bg-purple-200
+              cursor-pointer"
+            onChange={(e) => handleFileChange(e, "marksheets.pg")}
+          />
+
+          {/* Upload Button */}
+          <button
+            onClick={handleFinalSubmit}
+            className="px-4 py-1 text-sm font-semibold
+              bg-green-500 text-white
+              rounded-md shadow
+              hover:bg-green-600
+              active:scale-95 transition"
+          >
+            Upload
+          </button>
+        </div>
         )}
       </li>
     </ul>

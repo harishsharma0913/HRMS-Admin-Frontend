@@ -50,8 +50,8 @@ const UpdateEmployee = ({ employee, onClose, onUpdate }) => {
               branchName: employee.bankDetails?.branchName || ""
             }
           });
-        if (employee.profileImage) {
-          setProfilePreview(`https://hrms-api.tipsg.in/uploads/${employee.profileImage}`);
+        if (employee?.documents?.profileImage) {
+          setProfilePreview(`https://hrms-api.tipsg.in/uploads/${employee.documents.profileImage}`);
         }
 
     } catch (err) {
@@ -89,31 +89,62 @@ const handleImageChange = (e) => {
   }
 };
 
+// const handleImageUpload = async () => {
+//   if (!profileImage) return;
+
+//   const formData = new FormData();
+//   formData.append("profileImage", profileImage);
+
+//   try {
+//     const res = await fetch(`https://hrms-api.tipsg.in/update-profile-image/${employee._id}`, {
+//       method: "PATCH",
+//       body: formData,
+//     });
+
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       showToast("Profile image updated successfully.", "success");
+//       onUpdate();
+//     } else {
+//       showToast(`Error: ${data.message}`, "error");
+//     }
+//   } catch (err) {
+//     console.error("Image upload error:", err);
+//     showToast("Something went wrong while uploading image.", "error");
+//   }
+// };
 const handleImageUpload = async () => {
   if (!profileImage) return;
 
   const formData = new FormData();
-  formData.append("profileImage", profileImage);
+  formData.append("file", profileImage);   // 🔥 IMPORTANT
+  formData.append("key", "profileImage");  // 🔥 IMPORTANT
 
   try {
-    const res = await fetch(`https://hrms-api.tipsg.in/update-profile-image/${employee._id}`, {
-      method: "PATCH",
-      body: formData,
-    });
+    const res = await fetch(
+      `https://hrms-api.tipsg.in/upload-document/${employee._id}`,
+      {
+        method: "PATCH",
+        body: formData,
+      }
+    );
 
     const data = await res.json();
 
     if (res.ok) {
-      showToast("Profile image updated successfully.", "success");
-      onUpdate();
+      showToast("Profile image updated successfully", "success");
+      onUpdate(); // refresh SingleEmployee
     } else {
-      showToast(`Error: ${data.message}`, "error");
+      showToast(data.message || "Image upload failed", "error");
     }
   } catch (err) {
-    console.error("Image upload error:", err);
-    showToast("Something went wrong while uploading image.", "error");
+    console.error(err);
+    showToast("Error uploading image", "error");
   }
 };
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -138,7 +169,7 @@ const handleImageUpload = async () => {
     e.preventDefault();
     try {
       await handleImageUpload();
-
+      
         const res = await fetch(`https://hrms-api.tipsg.in/employee/${employee._id}`, {
         method: "PATCH",
         headers: {
@@ -174,7 +205,6 @@ const handleImageUpload = async () => {
 
     {/* Modal Header */}
     <h2 className="text-3xl font-bold text-center text-purple-700 mb-6 border-b pb-4">Update Employee</h2>
-
     {/* Profile Image Preview + Edit */}
      <div className="flex items-center justify-center mb-6 gap-4 flex-col sm:flex-row">
      <div className="relative w-28 h-28">
@@ -235,7 +265,7 @@ const handleImageUpload = async () => {
        <div>
         <label htmlFor="isActive" className="block text-sm font-medium text-gray-700 mb-1">Status:</label>
         <select id="isActive" name="isActive" value={formData.isActive} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 border-r-[10px] border-transparent">
+          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
           <option value="Active">Active</option>
           <option value="InActive">Inactive</option>
         </select>
@@ -245,7 +275,8 @@ const handleImageUpload = async () => {
       <div>
         <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">Department:</label>
         <select id="department" name="department" value={formData.department} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 border-r-[10px] border-transparent">
+          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 ">
+          <option value="">Salect Department</option>
           {departments.map((depart) => (
             <option key={depart._id} value={depart._id}>{depart.name}</option>
           ))}
@@ -256,7 +287,8 @@ const handleImageUpload = async () => {
       <div>
         <label htmlFor="designation" className="block text-sm font-medium text-gray-700 mb-1">Designation:</label>
         <select id="designation" name="designation" value={formData.designation} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 border-r-[10px] border-transparent">
+          className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 ">
+          <option value="">Salect Designation</option>
           {designations.map((desg) => (
             <option key={desg._id} value={desg._id}>{desg.name}</option>
           ))}

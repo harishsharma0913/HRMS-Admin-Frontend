@@ -240,115 +240,214 @@ useEffect(() => {
 
         {/* Step 1: Basic Info */}
         {step === 1 && (
-          <form
-            onSubmit={(e) => {
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setStep(2);
+          }}
+        >
+          <div className="mb-4 grid grid-cols-2 sm:grid-cols-2 gap-4">
+          {/* Full Name */}
+          <input
+            type="text"
+            name="fullName"
+            value={formData.fullName}
+            minLength={5}
+            maxLength={15}
+            onChange={(e) => handleChange(e, setFormData)}
+            placeholder="Full Name *"
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 w-full"
+            required
+            onKeyDown={(e) => {
+            if (!/[A-Za-z]/.test(e.key) && e.key !== "Backspace") {
               e.preventDefault();
-              setStep(2);
+            }
             }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            <input type="text" name="fullName" value={formData.fullName} onChange={(e) => handleChange(e, setFormData)} placeholder="Full Name *" className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" required
             pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
-            title="Name should contain only letters, spaces, or periods and be at least 3 characters long"
+            title="Please enter valid Name"
+          />
+
+          {/* Personal Email */}
+          <input
+            type="email"
+            name="personalEmail"
+            value={formData.personalEmail}
+            onChange={(e) => handleChange(e, setFormData)}
+            placeholder="Personal Email *"
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 w-full"
+            required
+          />
+
+          {/* Official Email */}
+          <input
+            type="email"
+            name="officialEmail"
+            value={formData.officialEmail}
+            onChange={(e) => handleChange(e, setFormData)}
+            placeholder="Official Email *"
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 w-full"
+          />
+
+          {/* Phone */}
+          <div className="flex bg-purple-200 p-2 rounded-lg items-center w-full">
+            <span className="text-gray-500 whitespace-nowrap">+91</span>
+            <input
+              type="tel"
+              name="phone"
+              maxLength={10}
+              value={formData.phone}
+              onChange={(e) => handleChange(e, setFormData)}
+              placeholder="Phone Number *"
+              className="ml-2 focus:outline-none bg-purple-200 w-full"
+              required
+              onKeyDown={(e) => {
+                if (!/[0-9]/.test(e.key) && e.key !== "Backspace") {
+                  e.preventDefault();
+                }
+              }}
+              pattern="^[6-9]\d{9}$"
+              title="Enter a valid 10-digit Indian mobile number"
             />
-            <input type="text" name="personalEmail" value={formData.personalEmail} onChange={(e) => handleChange(e, setFormData)} placeholder="Personal Email *" className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" required 
-            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-             title="Enter a valid email address"
-             />
-            <input type="email" name="officialEmail" value={formData.officialEmail} onChange={(e) => handleChange(e, setFormData)} placeholder="Official Email *" className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
-            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-             title="Enter a valid email address"
-              />
-            <input 
-             type="tel"
-             name="phone" 
-             value={formData.phone} 
-             onChange={(e) => handleChange(e, setFormData)} 
-             placeholder="Phone Number *" 
-             className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
-             required 
-             pattern="^[6-9]\d{9}$"
-             title="Enter a valid 10-digit Indian mobile number starting with 6-9"
+          </div>
+
+          {/* DOB */}
+          <div className="flex flex-col w-full">
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              Date of Birth :
+            </label>
+
+            <input
+              type="date"
+              id="dob"
+              name="dob"
+              min="1900-01-01"
+              max="2099-12-31"
+              value={formData.dob}
+              onChange={(e) => handleChange(e, setFormData)}
+              className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 w-full"
+              required
             />
-            <div className="flex flex-col">
-            <label htmlFor="dob" className="mb-1 text-sm font-medium text-gray-700">Date of Birth :</label>
-            <input type="date" id="dob" name="dob" value={formData.dob} onChange={(e) => handleChange(e, setFormData)} className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" required />
-            </div>
-            <div className="flex flex-col">
-            <label htmlFor="dob" className="mb-1 text-sm font-medium text-gray-700">Blood Group :</label>
-            <select name="bloodGroup" value={formData.bloodGroup} onChange={(e) => handleChange(e, setFormData)} className="bg-purple-200 p-[9px] rounded-lg focus:outline-purple-400 border-r-[10px] border-transparent" required>
+          </div>
+
+          {/* Blood Group */}
+          <div className="flex flex-col w-full">
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              Blood Group :
+            </label>
+
+            <select
+              name="bloodGroup"
+              value={formData.bloodGroup}
+              onChange={(e) => handleChange(e, setFormData)}
+              className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 w-full border-r-[10px] border-transparent"
+              required
+            >
               <option value="">Select</option>
-              {["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"].map((g) => <option key={g} value={g}>{g}</option>)}
+              {["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"].map((g) => (
+                <option key={g} value={g}>
+                  {g}
+                </option>
+              ))}
             </select>
-            </div>
-            
-            <textarea name="address" value={formData.address} onChange={(e) => handleChange(e, setFormData)} placeholder="Address *" rows={3} className="w-full col-span-1 sm:col-span-2 bg-purple-200 p-2 rounded-lg focus:outline-purple-400 resize-none" required />
-            <div className="col-span-2 text-right mt-2">
-              <button type="submit" className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition">Next</button>
-            </div>
-          </form>
+          </div>
+          </div>
+          {/* Address (full width) */}
+          <textarea
+            name="address"
+            value={formData.address}
+            onChange={(e) => handleChange(e, setFormData)}
+            placeholder="Address *"
+            rows={3}
+            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400 resize-none w-full sm:col-span-2"
+            required
+          />
+
+          {/* Button (full width on mobile) */}
+          <div className="col-span-1 sm:col-span-2 text-right mt-2">
+            <button
+              type="submit"
+              className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition"
+            >
+              Next
+            </button>
+          </div>
+        </form>
         )}
 
         {/* Step 2: Documents */}
         {step === 2 && (
-  <form
-    onSubmit={(e) => {
-      e.preventDefault();
-      setStep(3);
-    }}
-    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-  >
-    {[
-      { name: "profileImage", label: "Profile Image :" },
-      { name: "aadhar", label: "Aadhar Card :" },
-      { name: "pan", label: "PAN Card :" },
-      { name: "tenth", label: "10th Marksheet :" },
-      { name: "twelfth", label: "12th Marksheet :" },
-      { name: "ug", label: "UG Degree :" },
-      { name: "pg", label: "PG Degree :" },
-    ].map(({ name, label }) => (
-      <div key={name} className="w-full">
-        <label className="block text-sm font-medium mb-1">{label}</label>
-        <input
-          type="file"
-          name={name}
-          accept=".pdf,.jpg,.jpeg,.png"
-          onChange={handleFileChange}
-          className="w-full bg-purple-200 text-sm p-2 rounded-lg focus:outline-purple-400"
-          // required
-        />
-      </div>
-    ))}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setStep(3);
+          }}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        >
+          {[
+            { name: "profileImage", label: "Profile Image :" },
+            { name: "aadhar", label: "Aadhar Card :" },
+            { name: "pan", label: "PAN Card :" },
+            { name: "tenth", label: "10th Marksheet :" },
+            { name: "twelfth", label: "12th Marksheet :" },
+            { name: "ug", label: "UG Degree :" },
+            { name: "pg", label: "PG Degree :" },
+          ].map(({ name, label }) => (
+            <div key={name} className="w-full">
+              <label className="block text-sm font-medium mb-1">{label}</label>
 
-    <div className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-4">
-      <button
-        type="button"
-        onClick={() => setStep(1)}
-        className="bg-gray-300 text-sm px-6 py-2 rounded hover:bg-gray-400 w-full sm:w-auto"
-      >
-        Back
-      </button>
-      <button
-        type="submit"
-        className="bg-purple-600 text-white text-sm px-6 py-2 rounded hover:bg-purple-700 w-full sm:w-auto"
-      >
-        Next
-      </button>
-    </div>
-  </form>
-       )}
+              <input
+                type="file"
+                name={name}
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={handleFileChange}
+                className="w-full bg-purple-200 text-sm p-2 rounded-lg focus:outline-purple-400"
+              />
+
+              {documents[name] && (
+                <p className="text-xs text-green-600 mt-1">
+                  Selected: {documents[name].name}
+                </p>
+              )}
+            </div>
+          ))}
+
+          <div className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="bg-gray-300 text-sm px-6 py-2 rounded hover:bg-gray-400 w-full sm:w-auto"
+            >
+              Back
+            </button>
+
+            <button
+              type="submit"
+              className="bg-purple-600 text-white text-sm px-6 py-2 rounded hover:bg-purple-700 w-full sm:w-auto"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+        )}
+
 
         {/* Step 3: Bank Details */}
         {step === 3 && (
           <form onSubmit={(e) => { e.preventDefault(); setStep(4); }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input 
             type="text" 
-            name="bankName" 
+            name="bankName"
+            maxLength={20} 
             value={bankDetails.bankName} 
             onChange={(e) => handleChange(e, setBankDetails)} 
             placeholder="Bank Name *" 
             className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
             required
+            onKeyDown={(e) => {
+            if (!/[A-Za-z]/.test(e.key) && e.key !== "Backspace") {
+              e.preventDefault();
+            }
+            }}
             pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
             title="Bank Name should contain only letters, spaces, or periods and be at least 3 characters long" 
             />
@@ -358,14 +457,26 @@ useEffect(() => {
             className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
             pattern="[A-Z]{4}0[A-Z0-9]{6}"
             title="Enter a valid 11-character IFSC code (e.g., SBIN0001234)"
+            maxLength={15}
             required 
             />
             <input type="text" name="accountNumber" value={bankDetails.accountNumber} onChange={(e) => handleChange(e, setBankDetails)} placeholder="Account Number *" className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
-             pattern="\d{9,18}"
-             title="Enter a valid account number (9 to 18 digits)"
+            onKeyDown={(e) => {
+              if (!/[0-9]/.test(e.key) && e.key !== "Backspace") {
+                e.preventDefault();
+              }
+            }}
+            minLength={9}
+            maxLength={18}
             required
               />
             <input type="text" name="branch" value={bankDetails.branch} onChange={(e) => handleChange(e, setBankDetails)} placeholder="Branch Name *" className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" required 
+            onKeyDown={(e) => {
+            if (!/[A-Za-z]/.test(e.key) && e.key !== "Backspace") {
+              e.preventDefault();
+            }
+            }}
+            maxLength={30}
             pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
             title="Name should contain only letters, spaces, or periods and be at least 3 characters long"
             />
@@ -378,111 +489,126 @@ useEffect(() => {
 
         {/* Step 4: Experience */}
         {step === 4 && (
-  <form
-    onSubmit={(e) => {
-      e.preventDefault();
-      setStep(5);
-    }}
-    className="flex flex-col gap-4"
-  >
-    <div className="max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-      {experience.map((exp, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4 rounded-lg bg-purple-100"
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setStep(5);
+          }}
+          className="flex flex-col gap-4"
         >
-          <input
-            type="text"
-            name="companyName"
-            value={exp.companyName} 
-            onChange={(e) => handleExperienceChange(e, index)}
-            placeholder="Company Name *"
-            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
-            required = {false}
-            pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
-            title="Company Name should contain only letters, spaces, or periods and be at least 3 characters long"
-          />
-          <input
-            type="text"
-            name="designation"
-            value={exp.designation}
-            onChange={(e) => handleExperienceChange(e, index)}
-            placeholder="Designation *"
-            className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
-            required = {false}
-            pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
-            title="Designation should contain only letters, spaces, or periods and be at least 3 characters long"
-          />
+          <div className="max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+            {experience.map((exp, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4 rounded-lg bg-purple-100"
+              >
+                <input
+                  type="text"
+                  name="companyName"
+                  value={exp.companyName} 
+                  onChange={(e) => handleExperienceChange(e, index)}
+                  placeholder="Company Name *"
+                  className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400" 
+                  required = {false}
+                  onKeyDown={(e) => {
+                  if (!/[A-Za-z]/.test(e.key) && e.key !== "Backspace") {
+                    e.preventDefault();
+                  }
+                  }}
+                  pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
+                  title="Company Name should contain only letters, spaces, or periods and be at least 3 characters long"
+                />
+                <input
+                  type="text"
+                  name="designation"
+                  value={exp.designation}
+                  onChange={(e) => handleExperienceChange(e, index)}
+                  placeholder="Designation *"
+                  className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+                  required = {false}
+                  maxLength={30}
+                  onKeyDown={(e) => {
+                  if (!/[A-Za-z]/.test(e.key) && e.key !== "Backspace") {
+                    e.preventDefault();
+                  }
+                  }}
+                  pattern="^[A-Za-z][A-Za-z\s.]{1,}[A-Za-z]$"
+                  title="Designation should contain only letters, spaces, or periods and be at least 3 characters long"
+                />
 
-          <div className="flex flex-col">
-            <label htmlFor={`from-${index}`} className="mb-1 text-sm font-medium text-gray-700">
-              From :
-            </label>
-            <input
-              id={`from-${index}`}
-              type="date"
-              name="from"
-              value={exp.from}
-              onChange={(e) => handleExperienceChange(e, index)}
-              className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
-              required ={false}
-            />
+                <div className="flex flex-col">
+                  <label htmlFor={`from-${index}`} className="mb-1 text-sm font-medium text-gray-700">
+                    From :
+                  </label>
+                  <input
+                    id={`from-${index}`}
+                    type="date"
+                    name="from"
+                    min="1900-01-01"
+                    max="2099-12-31"
+                    value={exp.from}
+                    onChange={(e) => handleExperienceChange(e, index)}
+                    className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+                    required ={false}
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <label htmlFor={`to-${index}`} className="mb-1 text-sm font-medium text-gray-700">
+                    To :
+                  </label>
+                  <input
+                    id={`to-${index}`}
+                    type="date"
+                    name="to"
+                    min="1900-01-01"
+                    max="2099-12-31"
+                    value={exp.to}
+                    onChange={(e) => handleExperienceChange(e, index)}
+                    className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
+                    required ={false}
+                  />
+                </div>
+
+                {experience.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeExperience(index)}
+                    className="col-span-1 sm:col-span-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor={`to-${index}`} className="mb-1 text-sm font-medium text-gray-700">
-              To :
-            </label>
-            <input
-              id={`to-${index}`}
-              type="date"
-              name="to"
-              value={exp.to}
-              onChange={(e) => handleExperienceChange(e, index)}
-              className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
-              required ={false}
-            />
-          </div>
-
-          {experience.length > 1 && (
+          <div className="flex justify-between mt-2">
             <button
               type="button"
-              onClick={() => removeExperience(index)}
-              className="col-span-1 sm:col-span-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2"
+              onClick={() => setStep(3)}
+              className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"
             >
-              Remove
+              Back
             </button>
-          )}
-        </div>
-      ))}
-
-    </div>
-
-    <div className="flex justify-between mt-2">
-      <button
-        type="button"
-        onClick={() => setStep(3)}
-        className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"
-      >
-        Back
-      </button>
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={addExperience}
-          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-        >
-          + Add More
-        </button>
-        <button
-          type="submit"
-          className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  </form>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={addExperience}
+                className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+              >
+                + Add More
+              </button>
+              <button
+                type="submit"
+                className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </form>
         )}
 
         {/* Step 5: Others */}
@@ -551,6 +677,8 @@ useEffect(() => {
         id="doj"
         type="date"
         name="doj"
+        min="1900-01-01"
+        max="2099-12-31"
         value={others.doj}
         onChange={(e) => handleChange(e, setOthers)}
         className="bg-purple-200 p-2 rounded-lg focus:outline-purple-400"
