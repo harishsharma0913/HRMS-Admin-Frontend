@@ -19,7 +19,7 @@ const LeaveTable = () => {
 
   // Pagination states
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => {
     dispatch(
@@ -95,7 +95,6 @@ const LeaveTable = () => {
             <option>Approved</option>
             <option>Pending</option>
             <option>Rejected</option>
-            <option>Cancelled</option>
           </select>
           {/* Type Filter */}
           <select
@@ -200,71 +199,70 @@ const LeaveTable = () => {
   )}
         </div>
 
-{/* 🔹 Pagination Controls */}
-{leavesFiltered?.pagination && (
-  <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-3">
-    <div className="text-sm text-gray-600">
-  {filteredLeaves && filteredLeaves.length > 0 ? (
-    <>
-      Showing {(page - 1) * limit + 1} to{" "}
-      {Math.min(page * limit, leavesFiltered.pagination.total)} of{" "}
-      {leavesFiltered.pagination.total} results
-    </>
-  ) : (
-    "No results found"
-  )}
-</div>
+    {/* 🔹 Pagination Controls */}
+    {leavesFiltered?.pagination && (
+      <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-3">
+        <div className="text-sm text-gray-600">
+      {filteredLeaves && filteredLeaves.length > 0 ? (
+        <>
+          Showing {(page - 1) * limit + 1} to{" "}
+          {Math.min(page * limit, leavesFiltered.pagination.total)} of{" "}
+          {leavesFiltered.pagination.total} results
+        </>
+      ) : (
+        "No results found"
+      )}
+    </div>
 
 
-    {leavesFiltered.pagination.totalPages > 1 && (
-      <div className="flex items-center gap-2">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        {getPageNumbers().map((p) => (
-  <button
-    key={p}
-    onClick={() => setPage(p)}
-    className={`px-3 py-1 border rounded ${
-      page === p ? "bg-blue-500 text-white" : ""
-    }`}
-  >
-    {p}
-  </button>
-))}
+        {leavesFiltered.pagination.totalPages > 0 && (
+          <div className="flex items-center gap-2">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              className="px-3 py-1 border border-gray-300 bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Prev
+            </button>
+            {getPageNumbers().map((p) => (
+      <button
+        key={p}
+        onClick={() => setPage(p)}
+        className={`px-3 py-1 border border-gray-300 rounded ${
+          page === p ? "bg-blue-500 text-white" : ""
+        }`}
+      >
+        {p}
+      </button>
+    ))}
 
-        <button
-          disabled={page === leavesFiltered.pagination.totalPages}
-          onClick={() => setPage(page + 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
+            <button
+              disabled={page === leavesFiltered.pagination.totalPages}
+              onClick={() => setPage(page + 1)}
+              className="px-3 py-1 border border-gray-300 bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
 
-        {/* Limit per page */}
-        <select
-          value={limit}
-          onChange={(e) => {
-            setLimit(Number(e.target.value));
-            setPage(1);
-          }}
-          className="border rounded px-2 py-1"
-        >
-          <option value="">Select limit</option>
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={30}>30</option>
-        </select>
+            {/* Limit per page */}
+            <select
+              value={limit}
+              onChange={(e) => {
+                setLimit(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-400 focus:outline-none rounded px-2 py-1"
+            >
+              <option value="">Select limit</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+            </select>
+          </div>
+        )}
       </div>
     )}
-  </div>
-)}
-
       </div>
 
       {/* 🔹 Modal */}

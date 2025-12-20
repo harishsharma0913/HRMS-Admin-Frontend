@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import AddTaskPage from "./AddTaskPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, deleteTask, getAllTasks } from "../ReduxToolkit/taskSlice";
+import UpdateTaskPage from "./UpdateTask";
 
 export default function TaskHomePage() {
     const[open, setOpen]=useState(false);
   
   const dispatch = useDispatch();
   const { tasks, allTasks, loading, totalPages } = useSelector((state) => state.tasks);  
+  // console.log(tasks);
+  
   
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [page, setPage] = useState(1);
+  const [updateData, setUpdateData] = useState("")
+  const[openUpdateForm, setOpenUpdateForm]=useState(false);
+
   const limit = 5;
 
   const onClose = () => setOpen(false);
+  const onCloseUpdateForm = () => setOpenUpdateForm(false);
 
   useEffect(() => {
     dispatch(
@@ -57,28 +64,28 @@ export default function TaskHomePage() {
 
 const getPriorityClasses = (priority) => {
   if (priority === "High") {
-    return "bg-red-100 text-red-600"; 
+    return "text-red-600"; 
   }
   if (priority === "Medium") {
-    return "bg-yellow-100 text-yellow-600";
+    return "text-yellow-600";
   }
   if (priority === "Low") {
-    return "bg-green-100 text-green-600";
+    return "text-green-600";
   }
-  return "bg-gray-100 text-gray-600"; 
+  return "text-gray-600"; 
 };
 
 const getStatusClasses = (status) => {
   if (status === "Pending") {
-    return "text-yellow-600";
+    return "text-yellow-600 bg-yellow-100 px-2 rounded-full";
   }
   if (status === "In Progress" || status === "InProgress") {
-    return "text-blue-600";
+    return "text-blue-600 bg-blue-100 px-2 rounded-full";
   }
   if (status === "Completed") {
-    return "text-green-600";
+    return "text-green-600 bg-green-100 px-2 rounded-full";
   }
-  return "text-gray-600";
+  return "text-gray-600 bg-gray-100 px-2 rounded-full";
 };
 
 
@@ -205,33 +212,26 @@ const getStatusClasses = (status) => {
       key={task._id}
       className="w-full border border-gray-300 bg-white rounded-xl p-4 md:p-6 shadow-md">
         <div className="flex justify-between items-start md:items-center">
-          <div className="flex gap-3">
             <h2 className="text-xl font-bold">{task.title}</h2>
-            <span
-              className={`text-xs px-2 py-1 mr-2 rounded-full h-8 md:h-7 font-semibold ${getPriorityClasses(task.priority)}`}
-            >
-              {task.priority}
-            </span>
-          </div>
-
-          <button
-           onClick={() => handleDelete(task._id)}
-           className="bg-red-600 text-white px-3 py-1 rounded-md hover:scale-105 transition">
-            Delete
-          </button>
+            <p className={`text-sm font-semibold ${getStatusClasses(task.status)}`}>
+              {task.status}
+            </p>
         </div>
 
         <p className="text-gray-500 mt-2 text-sm md:text-base">
           {task.description}
         </p>
 
-        <div className="flex flex-wrap items-center gap-4 mt-3 text-sm text-gray-600">
+        <div className="flex flex-wrap justify-between gap-2 mt-2 text-sm text-gray-600">
           <p className="flex items-center gap-1">👤 {task.assignTo?.fullName}</p>
-          <p className="flex items-center gap-1">
-            📅{new Date(task.dueDate).toLocaleDateString()}
+            <p className="flex items-center gap-1">
+             Priority: <span className={`font-semibold ${getPriorityClasses(task.priority)}`}>{task.priority}</span>
             </p>
-            <p className={`font-semibold ${getStatusClasses(task.status)}`}>
-              {task.status}
+          <p className="flex items-center gap-1">
+            Assign Date: {new Date(task.createdAt).toLocaleDateString()}
+            </p>
+          <p className="flex items-center gap-1">
+            Due Date: {new Date(task.dueDate).toLocaleDateString()}
             </p>
         </div>
 
@@ -245,6 +245,21 @@ const getStatusClasses = (status) => {
         <p className="text-gray-500 text-xs mt-1">
           {getProgress(task.status)}% complete
         </p>
+          <div className="flex gap-3 mt-2">
+           <button
+           onClick={() => handleDelete(task._id)}
+           className="bg-red-600 text-white px-3 py-1 rounded-md hover:scale-105 transition">
+            Delete
+          </button>
+          <button
+           onClick={() => {
+            setUpdateData(task)
+            setOpenUpdateForm(true)
+           }}
+           className="bg-blue-600 text-white px-3 py-1 rounded-md hover:scale-105 transition">
+            Update
+          </button>
+          </div>
 
       </div>
       ))}
@@ -280,6 +295,7 @@ const getStatusClasses = (status) => {
       )}
     </div>
     {open && <AddTaskPage open={open} onClose={onClose} />}
+    {openUpdateForm && <UpdateTaskPage open={openUpdateForm} onClose={onCloseUpdateForm} data={updateData} />}
     </div>
   );
 }

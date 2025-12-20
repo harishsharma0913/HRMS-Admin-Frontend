@@ -19,7 +19,7 @@ const LeaveManagement = () => {
             </div>
        </div>
     
-    <div className="p-4  bg-pink-50 h-screen">
+    <div className="p-4  bg-pink-50 h-full">
       <LeaveStats />
       <LeaveTable />
     </div>

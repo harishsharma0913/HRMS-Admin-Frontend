@@ -50,6 +50,12 @@ const jobsSlice = createSlice({
     loading: false,
     error: null,
 
+    addJobLoading: false,
+    addJobError: null,
+
+    updateJobLoding: false,
+    updateJobError: null,
+
     // Pagination state
     page: 1,
     limit: 5,
@@ -106,23 +112,23 @@ const jobsSlice = createSlice({
 
     builder
       .addCase(addJob.pending, (state) => {
-        state.loading = true;
+        state.addJobLoading = true;
       })
       .addCase(addJob.fulfilled, (state, action) => {
-        state.loading = false;
+        state.addJobLoading = false;
         state.jobs.unshift(action.payload);
       })
       .addCase(addJob.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.addJobLoading = false;
+        state.addJobError = action.payload;
       });
 
     builder
       .addCase(updateJob.pending, (state) => {
-        state.loading = true;
+        state.updateJobLoding = true;
       })
       .addCase(updateJob.fulfilled, (state, action) => {
-        state.loading = false;
+        state.updateJobLoding = false;
 
         const index = state.jobs.findIndex((job) => job._id === action.payload._id);
         if (index !== -1) {
@@ -130,8 +136,8 @@ const jobsSlice = createSlice({
         }
       })
       .addCase(updateJob.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.updateJobLoding = false;
+        state.updateJobError = action.payload;
       });
   },
 });

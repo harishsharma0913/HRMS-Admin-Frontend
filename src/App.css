@@ -16,6 +16,21 @@ select:-webkit-autofill {
   -webkit-text-fill-color: black !important;
 }
 
+@keyframes slideFade {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideFade {
+  animation: slideFade 0.6s ease-in-out;
+}
+
 
 /* {step === 4 && (
   <form

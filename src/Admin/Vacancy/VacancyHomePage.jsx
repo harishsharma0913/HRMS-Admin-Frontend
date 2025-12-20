@@ -65,7 +65,7 @@ export default function VacancyHomePage() {
         </div>
       </div>
 
-      <div className="p-6 bg-pink-50 h-screen">
+      <div className="p-6 bg-pink-50 h-full">
         {/* Add New Job */}
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-3xl font-bold">Posted Jobs</h1>
@@ -257,7 +257,7 @@ export default function VacancyHomePage() {
           ))}
 
         {/* PAGINATION */}
-        <div className="flex justify-center mt-6 gap-4">
+        <div className="flex justify-center mt-4 gap-4">
           <button
             className="px-4 py-2 bg-gray-300 rounded-lg"
             disabled={page === 1}

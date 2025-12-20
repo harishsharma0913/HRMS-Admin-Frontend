@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, getAllTasks, getTasks, resetTaskState } from "../ReduxToolkit/taskSlice";
+import { updateTask, getTasks, resetTaskState } from "../ReduxToolkit/taskSlice";
 import { useToast } from "../Toast/ToastProvider";
 
-export default function AddTaskPage({ open, onClose }) {
+export default function UpdateTaskPage({ open, onClose, data }) {
   if (!open) return null;
+  console.log(data);
+  
   const { showToast } = useToast();
   const dispatch = useDispatch();
-  const { addTaskLoading, addTaskSuccess, addTaskError } = useSelector((state) => state.tasks);
+  const { updateLoading, updateSuccess, updateError } = useSelector((state) => state.tasks);
 
   // Form Fields
   const [title, setTitle] = useState("");
@@ -21,6 +23,23 @@ export default function AddTaskPage({ open, onClose }) {
   // Employees
   const [employees, setEmployees] = useState([]);
   const [empLoading, setEmpLoading] = useState(true);
+
+  useEffect(() => {
+  if (open) {
+    dispatch(resetTaskState());
+  }
+  }, [open]);
+
+
+  useEffect(() => {
+  if (data) {
+    setTitle(data.title || "");
+    setDescription(data.description || "");
+    setAssignTo(data?.assignTo?.employee_Id || "");
+    setDueDate(data.dueDate?.slice(0, 10) || "");
+    setPriority(data.priority || "Medium");
+  }
+}, [data]);
 
   // Fetch Employees
   useEffect(() => {
@@ -37,41 +56,42 @@ export default function AddTaskPage({ open, onClose }) {
   }, []);
 
   // Handle Submit
-  const handleSubmit = async () => {
-    // Validation
-    if (!title || !description || !assignTo || !dueDate) {
-      showToast("Please fill all required fields!", "error");
-      return;
-    }
+const handleSubmit = async () => {
+    if (updateLoading) return;
 
-    const res = await dispatch(
-      addTask({
+  if (!title || !description || !assignTo || !dueDate || !priority) {
+    showToast("Please fill all required fields!", "error");
+    return;
+  }
+
+  dispatch(
+    updateTask({
+      id: data._id,
+      updatedData: {
         title,
         description,
         assignTo,
         dueDate,
         priority,
-        createdBy: "69200b3e79c9ccf8b7d8fb53",
-      })
-    );
-    console.log("Add Task Response:", res);
-  };
+      },
+    })
+  );
+};
+
+
 
   // Auto close after success
-  useEffect(() => {
-    if (addTaskSuccess) {
-      onClose();
-      setTitle("");
-      setDescription("");
-      setAssignTo("");
-      setDueDate("");
-      setPriority("Medium");
-      dispatch(resetTaskState());
-      dispatch(getTasks());
-      dispatch(getAllTasks());
-      showToast("Task added successfully!", "success");
-    }
-  }, [addTaskSuccess]);
+useEffect(() => {
+  if (updateSuccess) {
+    showToast("Task updated successfully!", "success");
+
+    dispatch(resetTaskState());
+    dispatch(getTasks());
+
+    onClose();
+  }
+}, [updateSuccess]);
+
 
   return (
     <AnimatePresence>
@@ -90,7 +110,7 @@ export default function AddTaskPage({ open, onClose }) {
         >
           {/* Header */}
           <div className="relative">
-            <h2 className="text-2xl font-bold">Create New Task</h2>
+            <h2 className="text-2xl font-bold">Update Task</h2>
             <button
               onClick={onClose}
               className="absolute top-0 right-0 text-gray-600 hover:text-red-500"
@@ -100,9 +120,9 @@ export default function AddTaskPage({ open, onClose }) {
           </div>
 
           {/* Error */}
-          {addTaskError && (
+          {updateError && (
             <p className="text-red-600 text-sm bg-red-100 p-2 rounded">
-              {addTaskError}
+              {updateError}
             </p>
           )}
 
@@ -203,12 +223,12 @@ export default function AddTaskPage({ open, onClose }) {
 
             <button
               onClick={handleSubmit}
-              disabled={addTaskLoading}
+              disabled={updateLoading}
               className={`px-4 py-2 bg-black text-white font-semibold rounded-md transition ${
-                addTaskLoading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
+                updateLoading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
               }`}
             >
-              {addTaskLoading ? "Creating..." : "Create Task"}
+              {updateLoading ? "Updating..." : "Update Task"}
             </button>
           </div>
         </motion.div>
@@ -216,3 +236,4 @@ export default function AddTaskPage({ open, onClose }) {
     </AnimatePresence>
   );
 }
+

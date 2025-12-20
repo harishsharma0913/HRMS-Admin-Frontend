@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { addJob } from "../ReduxToolkit/jobSlice";
+import { addJob, fetchJobs } from "../ReduxToolkit/jobSlice";
 import { useToast } from "../Toast/ToastProvider";
 import { getDepartments } from "../ReduxToolkit/department";
 
 export default function JobPostPopup({ open, setOpen }) {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.jobs);
+  const { addJobLoading } = useSelector((state) => state.jobs);
   const { showToast } = useToast();
   const { departments } = useSelector((state) => state.organization);
   console.log(departments);
@@ -47,6 +47,7 @@ const [formData, setFormData] = useState({
   dispatch(addJob(finalData))
     .unwrap()
     .then(() => {
+      dispatch(fetchJobs({page: 1, limit: 5}));
       showToast("Job posted successfully!", "success");
       setOpen(false);
       setFormData({
@@ -198,9 +199,9 @@ const [formData, setFormData] = useState({
                   <button
                     type="submit"
                     className="rounded-xl px-5 py-2 bg-blue-700 hover:bg-blue-900 text-white font-semibold"
-                    disabled={loading}
+                    disabled={addJobLoading}
                   >
-                    {loading ? "Posting..." : "Post Job"}
+                    {addJobLoading ? "Posting..." : "Post Job"}
                   </button>
 
                   <button

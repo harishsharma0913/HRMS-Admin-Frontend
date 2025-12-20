@@ -16,6 +16,8 @@ const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(new Date());
   const { showToast } = useToast();
 
+  const isLeaveExpired = new Date(leave.endDate).setHours(23,59,59,999) < new Date();
+
   useEffect(() => {
     if (leave?.employee?._id) {
       dispatch(getEmployeeById(leave.employee._id));
@@ -195,13 +197,13 @@ const dispatch = useDispatch();
   <div className="flex gap-3">
     {/* ✅ Approve */}
     <button
-      disabled={leave.status !== "Pending"} // ✅ sirf pending pe active
+      disabled={isLeaveExpired || leave.status === "Approved"} // ✅ sirf pending pe active
         onClick={() => {
     dispatch(updateLeave({ leaveId: leave._id, status: "Approved" }))
       .unwrap()
       .then(() => {
         dispatch(getAllLeaves()); // ✅ leaves list refresh
-        dispatch(getFilteredLeaves({status:"All", type:"All", page:"", limit:"", search:""})); // ✅ filtered leaves refresh
+        dispatch(getFilteredLeaves({status:"All", type:"All", page: 1, limit: 5, search:""})); // ✅ filtered leaves refresh
         showToast("Leave approved successfully ✅", "success"); // 👈 success toast
         onClose();
       })
@@ -210,9 +212,10 @@ const dispatch = useDispatch();
       });
   }}
       className={`flex-1 rounded-md py-2 font-medium flex items-center justify-center gap-2
-        ${leave.status === "Pending"
-          ? "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        ${
+          isLeaveExpired || leave.status === "Approved"
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
         }`}
     >
       <CircleCheckBig size={16} /> Approve
@@ -220,13 +223,13 @@ const dispatch = useDispatch();
 
     {/* ❌ Reject */}
     <button
-      disabled={leave.status !== "Pending"} // ✅ sirf pending pe active
+      disabled={isLeaveExpired || leave.status === "Rejected" } // ✅ sirf pending pe active
   onClick={() => {
     dispatch(updateLeave({ leaveId: leave._id, status: "Rejected" }))
       .unwrap()
       .then(() => {
         dispatch(getAllLeaves()); // ✅ leaves list refresh
-        dispatch(getFilteredLeaves({status:"All", type:"All", page:"", limit:"", search:""})); // ✅ filtered leaves refresh
+        dispatch(getFilteredLeaves({status:"All", type:"All", page: 1, limit: 5, search:""})); // ✅ filtered leaves refresh
         showToast("Leave rejected successfully ❌", "error"); // 👈 reject toast
         onClose();
       })
@@ -235,9 +238,10 @@ const dispatch = useDispatch();
       });
   }}
       className={`flex-1 rounded-md py-2 font-medium flex items-center justify-center gap-2
-        ${leave.status === "Pending"
-          ? "bg-red-500 hover:bg-red-600 text-white cursor-pointer"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        ${
+          isLeaveExpired || leave.status === "Rejected" 
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-red-500 hover:bg-red-600 text-white cursor-pointer"
         }`}
     >
       <XCircle size={16} /> Reject
@@ -338,15 +342,29 @@ const dispatch = useDispatch();
           </div>
 
           {/* New Comment Input */}
-          <textarea
-            placeholder="Add a comment..."
-            value={commentText} // 👈 bind value
-            onChange={(e) => setCommentText(e.target.value)} // 👈 update state
-            className="w-full border rounded-md p-2 text-sm focus:outline-none focus:ring"
-          ></textarea>
+         <textarea
+          disabled={isLeaveExpired}
+          placeholder="Add a comment..."
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          className={`w-full border rounded-md p-2 text-sm focus:outline-none focus:ring
+            ${
+              isLeaveExpired
+                ? "bg-gray-300 border-gray-400 cursor-not-allowed opacity-60"
+                : "cursor-text"
+            }
+          `}
+        ></textarea>
+
           <button
+            disabled={isLeaveExpired}
             onClick={handleAdd}
-            className="w-full bg-black text-white rounded-md py-2 font-medium"
+            className={`w-full bg-black text-white rounded-md py-2 font-medium
+              ${
+                isLeaveExpired
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-black text-white"
+              }`}
           >
             Add Comment
           </button>

@@ -262,7 +262,7 @@ const handleDeleteEmployee = async () => {
               file:bg-purple-100 file:text-purple-700
               hover:file:bg-purple-200
               cursor-pointer"
-             onChange={(e) => handleFileChange(e, "aadhar")}          />
+             onChange={(e) => handleFileChange(e, "aadhar")}      />
 
           {/* Upload Button */}
           <button

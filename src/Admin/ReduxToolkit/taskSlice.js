@@ -61,6 +61,7 @@ export const getAllTasks = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   "task/updateTask",
   async ({ id, updatedData }, { rejectWithValue }) => {
+
     try {
       const response = await api.patch(`/admin/tasks/${id}`, updatedData);
 
@@ -68,7 +69,7 @@ export const updateTask = createAsyncThunk(
         return rejectWithValue(response.message || "Failed to update task");
       }
 
-      return response.data;
+      return response.task;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -94,11 +95,20 @@ export const deleteTask = createAsyncThunk(
 );
 
 const taskSlice = createSlice({
-  name: "task",
+  name: "tasks",
   initialState: {
     loading: false,
     success: false,
     error: null,
+
+    updateLoading: false,
+    updateSuccess: false,
+    updateError: null,
+
+    addTaskLoading: false,
+    addTaskSuccess: false,
+    addTaskError: null,
+
     tasks: [],
     allTasks: [],
     totalTasks: 0,
@@ -111,6 +121,14 @@ const taskSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.error = null;
+
+      state.updateLoading = false;
+      state.updateSuccess = false;
+      state.updateError = null;
+
+      state.addTaskLoading = false;
+      state.addTaskSuccess = false;
+      state.addTaskError = null;
     },
   },
 
@@ -119,17 +137,17 @@ const taskSlice = createSlice({
 
       // ADD TASK
       .addCase(addTask.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.addTaskLoading = true;
+        state.addTaskError = null;
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
+        state.addTaskLoading = false;
+        state.addTaskSuccess = true;
         state.tasks.unshift(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.addTaskLoading = false;
+        state.addTaskError = action.payload;
       })
 
       // GET TASKS
@@ -162,11 +180,19 @@ const taskSlice = createSlice({
       })
 
       // UPDATE TASK
+      .addCase(updateTask.pending, (state) => {
+        state.updateLoading = true;
+      })
       .addCase(updateTask.fulfilled, (state, action) => {
-        state.success = true;
+        state.updateLoading = false;
+        state.updateSuccess = true;
         state.tasks = state.tasks.map((task) =>
           task._id === action.payload._id ? action.payload : task
         );
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.updateLoading = false;
+        state.updateError = action.payload;
       })
 
       // DELETE TASK

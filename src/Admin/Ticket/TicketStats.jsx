@@ -1,4 +1,4 @@
-import { Ticket, Clock, CheckCircle, AlertTriangle } from "lucide-react";
+import { Ticket, SunDim , SunMedium , Sun  } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTickets } from "../ReduxToolkit/ticketSlice";
@@ -10,9 +10,9 @@ export default function TicketStats() {
   );
 
   const totalTickets = tickets.length;
-  const openTickets = tickets.filter((ticket) => ticket.status === "Open").length;
+  const openTickets = tickets.filter((ticket) => ticket.priority === "Low").length;
   const inProgressTickets = tickets.filter(
-    (ticket) => ticket.status === "In Progress"
+    (ticket) => ticket.priority === "Medium"
   ).length;
   const criticalTickets = tickets.filter(
     (ticket) => ticket.priority === "High"
@@ -64,10 +64,10 @@ export default function TicketStats() {
       <div className="p-4 rounded-lg bg-yellow-500 shadow-md hover:shadow-lg transition-all duration-200">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-white text-sm font-medium">Open</p>
+            <p className="text-white text-sm font-medium">Low</p>
             <h2 className="text-2xl font-bold text-white">{openTickets}</h2>
           </div>
-          <Clock className="text-white h-8 w-8" />
+          <SunDim  className="text-white h-8 w-8" />
         </div>
       </div>
 
@@ -75,10 +75,10 @@ export default function TicketStats() {
       <div className="p-4 rounded-lg bg-blue-500 shadow-md hover:shadow-lg transition-all duration-200">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-white text-sm font-medium">In Progress</p>
+            <p className="text-white text-sm font-medium">Medium</p>
             <h2 className="text-2xl font-bold text-white">{inProgressTickets}</h2>
           </div>
-          <CheckCircle className="text-white h-8 w-8" />
+          <SunMedium  className="text-white h-8 w-8" />
         </div>
       </div>
 
@@ -86,10 +86,10 @@ export default function TicketStats() {
       <div className="p-4 rounded-lg bg-red-500 shadow-md hover:shadow-lg transition-all duration-200">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-white text-sm font-medium">Critical</p>
+            <p className="text-white text-sm font-medium">High</p>
             <h2 className="text-2xl font-bold text-white">{criticalTickets}</h2>
           </div>
-          <AlertTriangle className="text-white h-8 w-8" />
+          <Sun  className="text-white h-8 w-8" />
         </div>
       </div>
     </div>

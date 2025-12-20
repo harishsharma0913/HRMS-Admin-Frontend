@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { updateJob } from "../ReduxToolkit/jobSlice";
+import { fetchJobs, updateJob } from "../ReduxToolkit/jobSlice";
 import { useToast } from "../Toast/ToastProvider";
 import { getDepartments } from "../ReduxToolkit/department";
 
 export default function EditJobDetails({ openEditForm, setOpenEditForm, selectedJob }) {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.jobs);
+  const { updateJobLoding } = useSelector((state) => state.jobs);
   const { departments } = useSelector((state) => state.organization);
   const { showToast } = useToast();
     
@@ -64,6 +64,12 @@ const handleSubmit = (e) => {
   }))
     .unwrap()
     .then(() => {
+          dispatch(
+            fetchJobs({
+              page:1,
+              limit: 5,
+            })
+          )
       showToast("Job updated!", "success");
       setOpenEditForm(false);
     })
@@ -203,9 +209,9 @@ const handleSubmit = (e) => {
                   <button
                     type="submit"
                     className="rounded-xl px-5 py-2 bg-blue-700 hover:bg-blue-900 text-white font-semibold"
-                    disabled={loading}
+                    disabled={updateJobLoding}
                   >
-                    {loading ? "Updating..." : "Update Job"}
+                    {updateJobLoding ? "Updating..." : "Update Job"}
                   </button>
 
                   <button

@@ -1,6 +1,6 @@
 import { X, User, Paperclip, Ticket, Clock, Briefcase } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTicketStatus } from "../ReduxToolkit/ticketSlice";
+import { getFilteredTickets, updateTicketStatus } from "../ReduxToolkit/ticketSlice";
 import { useToast } from "../Toast/ToastProvider";
 
 export default function TicketDetailsModal({ ticket, onClose }) {
@@ -12,6 +12,7 @@ export default function TicketDetailsModal({ ticket, onClose }) {
     try {
       if (ticket.status === newStatus) return;
       await dispatch(updateTicketStatus({ id: ticket._id, status: newStatus })).unwrap();
+      dispatch(getFilteredTickets({search:"",status:"",priority:"",category:"",page:1,limit:5}))
       showToast(`Ticket status updated to ${newStatus}`, "success");
       onClose();
     } catch (error) {
