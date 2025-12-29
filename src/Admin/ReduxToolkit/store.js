@@ -4,6 +4,7 @@ import ticketSlice from './ticketSlice';
 import jobsSlice from './jobSlice';
 import organizationSlice from './department';
 import taskSlice from './taskSlice';
+import forgotPasswordSlice from './forgotSlice';
 const store = configureStore({
   reducer: {
     auth: adminLeavesSlice,
@@ -11,6 +12,7 @@ const store = configureStore({
     jobs: jobsSlice,
     organization: organizationSlice,
     tasks: taskSlice,
+    forgotPassword: forgotPasswordSlice,
   },
 });
 
