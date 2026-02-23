@@ -18,7 +18,7 @@ const Sidebar = () => {
   try {
     const token = localStorage.getItem('adminToken');
 
-   const response = await fetch('https://hrms-api.tipsg.in/logout', {
+   const response = await fetch('https://hrms-backend-i9gs.onrender.com/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const UpdateEmployee = ({ employee, onClose, onUpdate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const depRes = await fetch("https://hrms-api.tipsg.in/department");
+        const depRes = await fetch("https://hrms-backend-i9gs.onrender.com/department");
         const depData = await depRes.json();
         if (depData.status) {
           setDepartments(depData.data);
@@ -51,7 +51,7 @@ const UpdateEmployee = ({ employee, onClose, onUpdate }) => {
             }
           });
         if (employee?.documents?.profileImage) {
-          setProfilePreview(`https://hrms-api.tipsg.in/uploads/${employee.documents.profileImage}`);
+          setProfilePreview(`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.profileImage}`);
         }
 
     } catch (err) {
@@ -66,7 +66,7 @@ useEffect(() => {
   const fetchDesignations = async () => {
     if (formData.department) {
       try {
-        const res = await fetch(`https://hrms-api.tipsg.in/designation?department_id=${formData.department}`);
+        const res = await fetch(`https://hrms-backend-i9gs.onrender.com/designation?department_id=${formData.department}`);
         const data = await res.json();
         if (data.status) {
           setDesignations(data.data);
@@ -96,7 +96,7 @@ const handleImageChange = (e) => {
 //   formData.append("profileImage", profileImage);
 
 //   try {
-//     const res = await fetch(`https://hrms-api.tipsg.in/update-profile-image/${employee._id}`, {
+//     const res = await fetch(`https://hrms-backend-i9gs.onrender.com/update-profile-image/${employee._id}`, {
 //       method: "PATCH",
 //       body: formData,
 //     });
@@ -123,7 +123,7 @@ const handleImageUpload = async () => {
 
   try {
     const res = await fetch(
-      `https://hrms-api.tipsg.in/upload-document/${employee._id}`,
+      `https://hrms-backend-i9gs.onrender.com/upload-document/${employee._id}`,
       {
         method: "PATCH",
         body: formData,
@@ -170,7 +170,7 @@ const handleImageUpload = async () => {
     try {
       await handleImageUpload();
       
-        const res = await fetch(`https://hrms-api.tipsg.in/employee/${employee._id}`, {
+        const res = await fetch(`https://hrms-backend-i9gs.onrender.com/employee/${employee._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -209,7 +209,7 @@ const handleImageUpload = async () => {
      <div className="flex items-center justify-center mb-6 gap-4 flex-col sm:flex-row">
      <div className="relative w-28 h-28">
       <img
-      src={profilePreview || `https://hrms-api.tipsg.in/uploads/${employee?.documents?.profileImage}`}
+      src={profilePreview || `https://hrms-backend-i9gs.onrender.com/uploads/${employee?.documents?.profileImage}`}
       alt="Profile"
       className="w-28 h-28 object-cover rounded-full border-2 border-purple-500 shadow-md"
       />

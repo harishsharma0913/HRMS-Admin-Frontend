@@ -43,7 +43,7 @@ export default function UpdateTaskPage({ open, onClose, data }) {
 
   // Fetch Employees
   useEffect(() => {
-    fetch("https://hrms-api.tipsg.in/employee")
+    fetch("https://hrms-backend-i9gs.onrender.com/employee")
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data?.data || []);

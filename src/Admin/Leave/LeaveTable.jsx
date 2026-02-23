@@ -148,7 +148,7 @@ const LeaveTable = () => {
                 <td className="p-3">
                   <div className="flex items-center gap-3">
                     <img
-                      src={`https://hrms-api.tipsg.in/uploads/${leave.employee?.documents?.profileImage}`}
+                      src={`https://hrms-backend-i9gs.onrender.com/uploads/${leave.employee?.documents?.profileImage}`}
                       alt={leave.employee?.fullName || "Profile"}
                       className="w-10 h-10 rounded-full object-cover"
                     />

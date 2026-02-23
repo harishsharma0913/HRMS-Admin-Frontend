@@ -19,7 +19,7 @@ const SingleEmployee = () => {
 
    const fetchEmployee = async () => {
       try {
-        const res = await fetch(`https://hrms-api.tipsg.in/employee/${id}`);
+        const res = await fetch(`https://hrms-backend-i9gs.onrender.com/employee/${id}`);
         const result = await res.json();
         console.log("Employee data:", result);
         
@@ -55,7 +55,7 @@ const SingleEmployee = () => {
       setUploading(true);
 
       const res = await fetch(
-        `https://hrms-api.tipsg.in/upload-document/${id}`,
+        `https://hrms-backend-i9gs.onrender.com/upload-document/${id}`,
         {
           method: "PATCH",
           body: formData,
@@ -108,7 +108,7 @@ const handleCloseUpdate = () => {
 
 const handleDeleteEmployee = async () => {
   try {
-    const res = await fetch(`https://hrms-api.tipsg.in/employee/delete/${id}`, {
+    const res = await fetch(`https://hrms-backend-i9gs.onrender.com/employee/delete/${id}`, {
       method: "PATCH",
     });
 
@@ -137,7 +137,7 @@ const handleDeleteEmployee = async () => {
       <img
         src={
           employee?.documents?.profileImage
-            ? `https://hrms-api.tipsg.in/uploads/${employee.documents.profileImage}`
+            ? `https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.profileImage}`
             : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrmvSoqEMvs4E-TIgyfMdztZYEdKav-zok1A&s"
         }
         alt={employee.fullName}
@@ -243,7 +243,7 @@ const handleDeleteEmployee = async () => {
       <span className="font-medium text-gray-800">Aadhaar Card:</span>{" "}
       {employee.documents?.aadhar ? (
         <a
-          href={`https://hrms-api.tipsg.in/uploads/${employee.documents.aadhar}`}
+          href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.aadhar}`}
           target="_blank"
           className="text-blue-600 underline"
         >
@@ -284,7 +284,7 @@ const handleDeleteEmployee = async () => {
       <span className="font-medium text-gray-800">Pan Card:</span>{" "}
       {employee.documents?.pan ? (
         <a
-          href={`https://hrms-api.tipsg.in/uploads/${employee.documents.pan}`}
+          href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.pan}`}
           target="_blank"
           className="text-blue-600 underline"
         >
@@ -328,7 +328,7 @@ const handleDeleteEmployee = async () => {
         <span className="font-medium text-gray-800">10th:</span>{" "}
         {employee.documents?.marksheets?.ten ? (
           <a
-            href={`https://hrms-api.tipsg.in/uploads/${employee.documents.marksheets.ten}`}
+            href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.marksheets.ten}`}
             target="_blank"
             className="text-blue-600 underline"
           >
@@ -368,7 +368,7 @@ const handleDeleteEmployee = async () => {
         <span className="font-medium text-gray-800">12th:</span>{" "}
         {employee.documents?.marksheets?.twel ? (
           <a
-            href={`https://hrms-api.tipsg.in/uploads/${employee.documents.marksheets.twel}`}
+            href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.marksheets.twel}`}
             target="_blank"
             className="text-blue-600 underline"
           >
@@ -412,7 +412,7 @@ const handleDeleteEmployee = async () => {
         <span className="font-medium text-gray-800">UG:</span>{" "}
         {employee.documents?.marksheets?.ug ? (
           <a
-            href={`https://hrms-api.tipsg.in/uploads/${employee.documents.marksheets.ug}`}
+            href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.marksheets.ug}`}
             target="_blank"
             className="text-blue-600 underline"
           >
@@ -452,7 +452,7 @@ const handleDeleteEmployee = async () => {
         <span className="font-medium text-gray-800">PG:</span>{" "}
         {employee.documents?.marksheets?.pg ? (
           <a
-            href={`https://hrms-api.tipsg.in/uploads/${employee.documents.marksheets.pg}`}
+            href={`https://hrms-backend-i9gs.onrender.com/uploads/${employee.documents.marksheets.pg}`}
             target="_blank"
             className="text-blue-600 underline"
           >

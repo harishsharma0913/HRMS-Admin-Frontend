@@ -15,7 +15,7 @@ const PasswordModal = ({ isOpen, onClose, employeeId, onPasswordUpdated }) => {
     }
 
     try {
-      const res = await fetch(`https://hrms-api.tipsg.in/update-password/${employeeId}`, {
+      const res = await fetch(`https://hrms-backend-i9gs.onrender.com/update-password/${employeeId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
